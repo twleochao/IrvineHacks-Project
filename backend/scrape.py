@@ -51,15 +51,11 @@ def scrape(verbose: bool=False) -> List[List]:
    img_src_element = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
    img_src = img_src_element.get_attribute('src').strip()
    time = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div')).text.strip()
-<<<<<<< HEAD
-   location = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]')).text.strip()
+   location = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]')).text.strip().replace(',', '')
 
    # event_link = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')
 
-=======
-   location = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]')).text.strip().replace(',', '')
->>>>>>> d7e5fa885e17a9e48e9f986e900b0e82f44152f0
-
+   
 
 
    if verbose:
