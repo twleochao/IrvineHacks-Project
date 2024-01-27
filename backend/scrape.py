@@ -6,12 +6,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 from typing import List
-<<<<<<< HEAD
 from urllib.parse import urlparse
-from main import writecsv
-=======
 from main import writecsv, removecommas
->>>>>>> 813271b73ee71203016196a9344c2d3f67232a21
 
 
 # Link to UCI Campus Groups Events Website
@@ -84,8 +80,7 @@ def scrape(verbose: bool=False) -> List[List]:
         except NoSuchElementException as e:
             print(f"Error: {e}")
 
-<<<<<<< HEAD
-=======
+
 
     name = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text.strip()
     img_src_element = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
@@ -123,7 +118,6 @@ def scrape(verbose: bool=False) -> List[List]:
         print("Event Location: ", location)
         print("Address: ", address) # Needs further testing on websites which have the address, tested on a website without address
 
->>>>>>> 813271b73ee71203016196a9344c2d3f67232a21
     return event_list_data
 
 
