@@ -9,11 +9,25 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
 class User(db.model):
-    name = db.Column(db.String(30), primary_key=True)
+    id  = db.Column(db.String(30), primary_key=True)
 
     def __repr__(self):
         return f"User('{self.id}')"
 
+@app.route('/profile/<string:user_id>')
+def profile(user_id):
+    user = User.query.get(user_id)
+    return render_template('profile.html', user=user)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        user_id = request.form['user_id']
+        user = User(id=user_id)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('profile', user_id=user_id))
+    return render_template('register.html')
 
 def removecommas(string):
     return string.replace(',', '')
