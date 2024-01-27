@@ -1,83 +1,66 @@
-from bs4 import BeautifulSoup
-import requests
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver import ChromeOptions
+
+
 from typing import List
-import csv
 
-BASE_URL = 'https://campusgroups.uci.edu/events'
 
-# The name of each column in our CSV file export (The data we are scraping from each project)
-HEADERS = ['Event Name', 'Event Description', 'Date', 'Location']
+# Link to UCI Campus Groups Events Website
+URL = 'https://campusgroups.uci.edu/events'
+
+
+# The name of each column in the CSV file export
+HEADERS = ['Event Image Src', 'Event Name', 'Event Location', 'Event Time']
+
+
+# Preparing Selenium
+service = Service(executable_path='backend/chromedriver-mac-x64/chromedriver') # Gets the chromedriver.exe
+options = webdriver.ChromeOptions() # Sets up the options for Selenium
+options.add_argument("--headless=new") # Makes our options headless (so the browser won't open)
+driver = webdriver.Chrome(service=service, options=options)
+
+
+driver.get(URL)
+
 
 def scrape(verbose: bool=False) -> List[List]:
-    """
-    Scrapes all of the submissions for Hack at UCI 2022 and return the data as a list of lists.
-    Each i-th inner list represents the data scraped from the i-th project.
-    
-    If verbose set to True, will output all scraped data to the console.
-    """
-    
-    project_gallery_data: List[List] = []    
-    
-    # There are two pages in the project gallery. Let's scrape each one
-    for page_num in [1, 2]:
-        
-        # Construct the full URL of the page we want to scrape
-        url = BASE_URL.format(page_num=page_num)
-        
-        # Make a GET request to the url to retrieve the page HTML
-        page = requests.get(url, headers={'User-Agent': 'HackUCI Scraper'})
-        
-        # Read the page HTML into BeautifulSoup
-        soup = BeautifulSoup(page.text, 'html.parser')
-    
-        # Loop through all of the project "tiles"
-        for project in soup.find_all('div', class_='gallery-item'):
-            data = []
-            
-            name = project.findChild('h5').text.strip()
-            description = project.findChild('p', class_="small tagline").text.strip()
-            likes = project.findChild('span', class_="count like-count").text.strip()
-            comments = project.findChild('span', class_="count comment-count").text.strip()
-            thumbnail = project.findChild('img', class_="software_thumbnail_image")['src'].strip()
-            is_winner = project.findChild('img', class_='winner') is not None
-            
-            # Project Name
-            data.append(name)
-            # Project description
-            data.append(description)
-            # Number of likes
-            data.append(likes)
-            # Number of comments
-            data.append(comments)
-            # Link to thumbnail image           
-            data.append(thumbnail)
-            # Whether the project won a prize
-            data.append(is_winner)
+   """
+   Scrapes all of the submissions for UCI Campus Group Events and return the data as a list of lists.
+   Each i-th inner list represents the data scraped from the i-th project.
+  
+   If verbose set to True, will output all scraped data to the console.
+   """
+   event_list_data: List[List] = []
 
-            # Add this project's data to our list of all project data
-            project_gallery_data.append(data)
-            
-            if verbose:
-                print('Name:', name)
-                print('Description:', description)
-                print('Number of Likes:', likes)
-                print('Number of Comments:', comments)
-                print('Thumbnail Image:', thumbnail)
-                print('Is Winner:', is_winner)
-                print('-' * 50)
-                                        
-    return project_gallery_data
-    
 
-def write_to_csv(data: List[List], filename: str, headers: List[str] = HEADERS):
-    with open(filename, 'w', newline='') as csvfile:
-        # Creating a csv writer object 
-        csvwriter = csv.writer(csvfile) 
-        # Writing the fields (columns) 
-        csvwriter.writerow(headers) 
-        # Writing the data (rows) 
-        csvwriter.writerows(data)
-    
+   '''
+   for event in driver.find_elements(By.XPATH, '//*[contains(@id, "event")]'):
+       img_src = event.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
+       name = (event.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text
+
+
+       if verbose:
+           print("Event Image Src:", img_src)
+           print("Event Name: ", name)
+   '''
+
+
+   img_src = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
+   name = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text
+
+
+   if verbose:
+       print("Event Image Src:", img_src)
+       print("Event Name: ", name)
+
+
+   return event_list_data
+
+
 if __name__ == '__main__':
-    project_data = scrape(verbose=True)
-    write_to_csv(project_data, 'hackuci22_projects.csv')
+   event_data = scrape(verbose=True)
+
+
+driver.quit()
