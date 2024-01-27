@@ -48,10 +48,26 @@ def scrape(verbose: bool=False) -> List[List]:
    time = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div')).text.strip()
    location = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]')).text.strip().replace(',', '')
 
-   # event_link = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')
+    event_link = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')
+       event_link.click()
 
 
+       try:
+           link_href = event_link.get_attribute('href')
 
+
+           original_url_parts = urlparse(URL)
+           link_url_parts = urlparse(link_href)
+
+
+           if original_url_parts.netloc == link_url_parts.netloc: 
+               event_link.click()
+               try:
+                   address = driver.find_element(By.XPATH, '//*[@id="event_main_card"]/div[3]/div/div[2]/div[2]/p[2]/text()')
+               except:
+                   address = ""
+       except:
+           address = ""
 
     if verbose:
         print("Event Name: ", name)
