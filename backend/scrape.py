@@ -5,15 +5,11 @@ from selenium.webdriver import ChromeOptions
 
 
 from typing import List
+from main import writercsv
 
 
 # Link to UCI Campus Groups Events Website
 URL = 'https://campusgroups.uci.edu/events'
-
-
-# The name of each column in the CSV file export
-HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
-
 
 # Preparing Selenium
 service = Service(executable_path='backend/chromedriver-mac-x64/chromedriver') # Gets the chromedriver.exe
@@ -67,6 +63,7 @@ def scrape(verbose: bool=False) -> List[List]:
 
 if __name__ == '__main__':
    event_data = scrape(verbose=True)
+   writecsv(event_data, 'eventinfo.csv')
 
 
 driver.quit()

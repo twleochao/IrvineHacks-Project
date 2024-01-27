@@ -1,7 +1,13 @@
 import csv
 
-def organizetime(time):
+HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
 
+def writecsv(data, filename, headers = HEADERS):
+    with open(filename, 'w', newline='') as f:
+        writer = csv.writer(f)  
+        writer.writerow(headers)
+        writer.writerows(headers)
+    
 def get_data(data):
     for i in data:
         eventname = i[0]
@@ -15,4 +21,3 @@ def main():
         data = csv.reader(csvfile)
         get_data(data)
 
-main()
