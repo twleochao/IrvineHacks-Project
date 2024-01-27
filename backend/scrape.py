@@ -4,17 +4,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import ChromeOptions
 
 from typing import List
-
-from urllib.parse import urlparse
+from main import writercsv
 
 
 # Link to UCI Campus Groups Events Website
 URL = 'https://campusgroups.uci.edu/events'
-
-
-# The name of each column in the CSV file export
-HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
-
 
 # Preparing Selenium
 service = Service(executable_path='backend/chromedriver-mac-x64/chromedriver') # Gets the chromedriver.exe
@@ -48,29 +42,16 @@ def scrape(verbose: bool=False) -> List[List]:
     '''
 
 
-    name = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text.strip()
-    img_src_element = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
-    img_src = img_src_element.get_attribute('src').strip()
-    time = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div')).text.strip()
-    location = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]')).text.strip().replace(',', '')
+   name = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text.strip()
+   img_src_element = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
+   img_src = img_src_element.get_attribute('src').strip()
+   time = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div')).text.strip()
+   location = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]')).text.strip().replace(',', '')
 
-    event_link = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')
-    event_link.click()
+   # event_link = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')
 
-    try:
-        link_href = event_link.get_attribute('href')
 
-        original_url_parts = urlparse(URL)
-        link_url_parts = urlparse(link_href)
 
-        if original_url_parts.netloc == link_url_parts.netloc:  
-            event_link.click()
-            try:
-                address = driver.find_element(By.XPATH, '//*[@id="event_main_card"]/div[3]/div/div[2]/div[2]/p[2]/text()')
-            except:
-                address = ""
-    except:
-        address = ""
 
     if verbose:
         print("Event Name: ", name)
@@ -84,6 +65,7 @@ def scrape(verbose: bool=False) -> List[List]:
 
 if __name__ == '__main__':
    event_data = scrape(verbose=True)
+   writecsv(event_data, 'eventinfo.csv')
 
 
 driver.quit()
