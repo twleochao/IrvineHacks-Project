@@ -12,7 +12,7 @@ URL = 'https://campusgroups.uci.edu/events'
 
 
 # The name of each column in the CSV file export
-HEADERS = ['Event Image Src', 'Event Name', 'Event Location', 'Event Time']
+HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
 
 
 # Preparing Selenium
@@ -47,13 +47,20 @@ def scrape(verbose: bool=False) -> List[List]:
    '''
 
 
-   img_src = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
-   name = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text
+   name = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text.strip()
+   img_src_element = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
+   img_src = img_src_element.get_attribute('src').strip()
+
+   # time = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div')).text.strip()
+   # location = (driver.find_element(By.XPATH, '*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]/text()')).text.strip()
+
 
 
    if verbose:
-       print("Event Image Src:", img_src)
        print("Event Name: ", name)
+       print("Event Image Src: ", img_src)
+       # print("Event Time: ", time)
+       # print("Event Location: ", location)
 
 
    return event_list_data
