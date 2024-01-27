@@ -2,6 +2,9 @@ import csv
 
 HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
 
+def removecommas(string):
+    return string.replace(',', '')
+
 def writecsv(data, filename, headers = HEADERS):
     with open(filename, 'w', newline='') as f:
         writer = csv.writer(f)  
