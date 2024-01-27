@@ -3,8 +3,9 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ChromeOptions
 
-
 from typing import List
+
+from urllib.parse import urlparse
 
 
 # Link to UCI Campus Groups Events Website
@@ -26,50 +27,59 @@ driver.get(URL)
 
 
 def scrape(verbose: bool=False) -> List[List]:
-   """
-   Scrapes all of the submissions for UCI Campus Group Events and return the data as a list of lists.
-   Each i-th inner list represents the data scraped from the i-th project.
-  
-   If verbose set to True, will output all scraped data to the console.
-   """
-   event_list_data: List[List] = []
+    """
+    Scrapes all of the submissions for UCI Campus Group Events and return the data as a list of lists.
+    Each i-th inner list represents the data scraped from the i-th project.
+
+    If verbose set to True, will output all scraped data to the console.
+    """
+    event_list_data: List[List] = []
 
 
-   '''
-   for event in driver.find_elements(By.XPATH, '//*[contains(@id, "event")]'):
-       img_src = event.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
-       name = (event.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text
+    '''
+    for event in driver.find_elements(By.XPATH, '//*[contains(@id, "event")]'):
+        img_src = event.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
+        name = (event.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text
 
 
-       if verbose:
-           print("Event Image Src:", img_src)
-           print("Event Name: ", name)
-   '''
+        if verbose:
+            print("Event Image Src:", img_src)
+            print("Event Name: ", name)
+    '''
 
 
-   name = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text.strip()
-   img_src_element = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
-   img_src = img_src_element.get_attribute('src').strip()
-   time = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div')).text.strip()
-<<<<<<< HEAD
-   location = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]')).text.strip()
+    name = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text.strip()
+    img_src_element = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
+    img_src = img_src_element.get_attribute('src').strip()
+    time = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div')).text.strip()
+    location = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]')).text.strip().replace(',', '')
 
-   # event_link = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')
+    event_link = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')
+    event_link.click()
 
-=======
-   location = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]')).text.strip().replace(',', '')
->>>>>>> d7e5fa885e17a9e48e9f986e900b0e82f44152f0
+    try:
+        link_href = event_link.get_attribute('href')
 
+        original_url_parts = urlparse(URL)
+        link_url_parts = urlparse(link_href)
 
+        if original_url_parts.netloc == link_url_parts.netloc:  
+            event_link.click()
+            try:
+                address = driver.find_element(By.XPATH, '//*[@id="event_main_card"]/div[3]/div/div[2]/div[2]/p[2]/text()')
+            except:
+                address = ""
+    except:
+        address = ""
 
-   if verbose:
-       print("Event Name: ", name)
-       print("Event Image Src: ", img_src)
-       print("Event Time: ", time)
-       print("Event Location: ", location)
-
-
-   return event_list_data
+    if verbose:
+        print("Event Name: ", name)
+        print("Event Image Src: ", img_src)
+        print("Event Time: ", time)
+        print("Event Location: ", location)
+        print("Address: ", address) # Needs further testing on websites which have the address, tested on a website without address
+    
+    return event_list_data
 
 
 if __name__ == '__main__':
