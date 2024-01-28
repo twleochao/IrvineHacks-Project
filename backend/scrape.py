@@ -45,30 +45,20 @@ def scrape(verbose: bool=False) -> List[List]:
 
             
             # Clicking on the link of the associated event
-            event_link = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')
-            event_link.click()
+            event_link = event.find_element(By.XPATH, './/div/div/div[2]/div/div/h3/a')
+            link_href = event_link.get_attribute('href') # Getting the href of the address
+            driver.get(link_href)
             
-            try: 
-                # Parsing both the clicked link and original link
-                link_href = event_link.get_attribute('href')
-                original_url_parts = urlparse(URL)
-                link_url_parts = urlparse(link_href)
-
-                # If the subdomain and domain of the clicked on url is the same as the original url...
-                if original_url_parts.netloc == link_url_parts.netloc: 
-                    try:
-                        # Get the address from the webpage if it exists
-                        address = driver.find_element(By.XPATH, '//*[@id="event_main_card"]/div[3]/div/div[2]/div[2]/p[2]/text()')
-                    except:
-                        # If not leave blank
-                        address = ""
-            except:
+            try:
+                # Get the address from the webpage if it exists
+                address = driver.find_element(By.XPATH, '//*[@id="event_main_card"]/div[3]/div/div[2]/div[2]/p[2]').text.strip()
+            except NoSuchElementException:
+                # If not, leave blank
                 address = ""
-            
+
             
             driver.back()
-            
-
+        
             if verbose:
                 print("Event Name: ", name)
                 print("Event Image Src: ", img_src)
@@ -79,44 +69,6 @@ def scrape(verbose: bool=False) -> List[List]:
         
         except NoSuchElementException as e:
             print(f"Error: {e}")
-
-
-
-    name = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a')).text.strip()
-    img_src_element = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[1]/a/img')
-    img_src = img_src_element.get_attribute('src').strip()
-    time = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div')).text.strip()
-    location = (driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/div[1]/div[2]')).text.strip()
-
-    event_link = driver.find_element(By.XPATH, '//*[contains(@id, "event")]/div/div/div[2]/div/div/h3/a').event_link.click()
-    try:
-        link_href = event_link.get_attribute('href')
-
-        original_url_parts = urlparse(URL)
-        link_url_parts = urlparse(link_href)
-
-
-        if original_url_parts.netloc == link_url_parts.netloc: 
-            event_link.click()
-            try:
-                address = driver.find_element(By.XPATH, '//*[@id="event_main_card"]/div[3]/div/div[2]/div[2]/p[2]/text()')
-            except:
-                address = ""
-    except:
-        address = ""
-
-    name = removecommas(name)
-    img_src = removecommas(img_src)
-    time = removecommas(time)
-    location = removecommas(location)
-    address = removecommas(address)
-    
-    if verbose:
-        print("Event Name: ", name)
-        print("Event Image Src: ", img_src)
-        print("Event Time: ", time)
-        print("Event Location: ", location)
-        print("Address: ", address) # Needs further testing on websites which have the address, tested on a website without address
 
     return event_list_data
 
