@@ -37,6 +37,9 @@ Currently, Chromedriver is only installed in Windows and MacOS on the program. M
 
 ## License
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
 ## Credits
 
 ZotEvents was developed by a group of beginner programmers during IrvineHacks 2024:
