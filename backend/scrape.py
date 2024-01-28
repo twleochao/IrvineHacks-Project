@@ -7,7 +7,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 from typing import List
 from urllib.parse import urlparse
-import csv
+
+import os
 import platform
 from main import writecsv, removecommas
 
@@ -118,6 +119,14 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
 
     return event_list_data
 
+def specifypath():
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    filename = os.path.join(curdir, 'eventinfo.csv')
+
+    return filename
+
+
 if __name__ == '__main__':
    event_data = scrape(1, 10, verbose=True)
-   writecsv(event_data, 'eventinfo.csv')
+   filename = specifypath()
+   writecsv(event_data, filename)
