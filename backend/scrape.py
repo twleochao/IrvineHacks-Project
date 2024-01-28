@@ -8,6 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 from typing import List
 from urllib.parse import urlparse
 import csv
+import platform
 from main import writecsv, removecommas
 
 
@@ -29,7 +30,15 @@ def scrape(verbose: bool=False) -> List[List]:
     event_list_data: List[List] = []
 
     # Preparing Selenium
-    service = Service(executable_path='backend/chromedriver-mac-x64/chromedriver') # Gets the chromedriver.exe
+
+    #Getting the chromedriver
+    if (platform.system() == 'Windows'):
+        service = Service(executable_path='backend/chromedriver/chromedriver-win64/chromedriver.exe')
+    elif (platform.system() == 'Darwin'):
+        service = Service(executable_path='backend/chromedriver/chromedriver-mac-x64/chromedriver')
+    else:
+        exit("Not compatible operating system")
+
     options = webdriver.ChromeOptions() # Sets up the options for Selenium
     options.add_argument("--headless=new") # Makes our options headless (so the browser won't open)
     options.add_experimental_option(
@@ -89,8 +98,10 @@ def scrape(verbose: bool=False) -> List[List]:
 
     driver.quit()
 
+    writecsv(event_list_data, 'eventinfo.csv')
+
     return event_list_data
 
 if __name__ == '__main__':
    event_data = scrape(verbose=True)
-   writecsv(event_data, 'eventinfo.csv')
+   # writecsv(event_data, 'eventinfo.csv')
