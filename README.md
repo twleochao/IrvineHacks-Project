@@ -15,7 +15,11 @@ Relevant information will be presented alongside an interactive map that will sh
 
 ## Overview
 
-Provide a more detailed explanation of your project, its purpose, and any relevant information. You can include a brief overview of the technologies used, the problem it solves, or any other context.
+ZotEvents is a web-based platform crafted to streamline the discovery of upcoming events at the University of California, Irvine (UCI). Combining a Python backend with a JavaScript frontend built on React, ZotEvents delivers a dynamic and user-friendly experience.
+
+Using Selenium's web scraping capabilities, ZotEvents fetches real-time information from UCI's dedicated event website, ensuring that the platform stays updated with the latest events on campus. The program efficiently manages the scraped data, organizing it in a user-friendly format that includes event names, dates, and locations. One of ZotEvents' central components is its integration with the Google Maps API. For events with location information, users can seamlessly navigate to the venue using the platform's integrated map functionality.
+
+The workflow of ZotEvents is designed to simplify event discovery, offering the UCI community an accessible and informative tool to stay engaged with the diverse range of activities happening on campus.
 
 ## Installation
 
