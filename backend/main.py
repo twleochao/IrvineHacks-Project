@@ -42,7 +42,8 @@ def find_coords(data):
         coords.append(curcoords)
 
         dct = {"name": obj[0], "img src": obj[1], "time": obj[2], "loc": obj[3], "add": obj[4], "cords": coords[i-1]}
-        fnldata.append(dct)
+        if curcoords != None:
+            fnldata.append(dct)
 
 
 def writesorteddata():
