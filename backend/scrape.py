@@ -105,6 +105,7 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
             event_list_data.append(curdata)
 
             if verbose:
+                print("Event Index: ", event_index)
                 print("Event Name: ", name)
                 print("Event Image Src: ", img_src)
                 print("Event Time: ", time)

@@ -1,0 +1,74 @@
+.search-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .blank-section {
+    flex: 1;
+    background-color: #dbddc0;
+  }
+  
+  .search-section {
+    font-family: Poppins;
+    flex: 1;
+    padding: 40px; /* Adjust padding for the search section */
+    background-color: #dbddc0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  h2 {
+    margin-top: 150px;
+    margin-bottom: 40px;
+    color: rgb(51, 47, 47);
+    text-align: center;
+  }
+  
+  input {
+    width: 30%;
+    padding: 15px; /* Adjust padding for the input */
+    margin-bottom: 30px; /* Adjust margin for the input */
+    border: 1px solid #eef0d4;
+    border-radius: 15px;
+    text-align: center;
+  }
+  
+  button {
+    font-family: Poppins;
+    padding: 15px; /* Adjust padding for the button */
+    margin-bottom: 20px; /* Adjust margin for the button */
+    cursor: pointer;
+    background-color: yellow;
+    border: none;
+    border-radius: 13px;
+  }
+  
+  .additional-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+  }
+  
+  .info-item {
+    background-color: #fff;
+    padding: 15px; /* Adjust padding for the info-item */
+    margin-bottom: 20px; /* Adjust margin for the info-item */
+    border-radius: 10px;
+  }
+  
+  .info-item div {
+    margin-bottom: 10px;
+  }
+  
+  .info-item span {
+    font-weight: bold;
+  }
+  
+  /* Add margin between Time and Address */
+  .info-item div + div {
+    margin-top: 50px;
+  }
+  
