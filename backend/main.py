@@ -29,7 +29,7 @@ def writecsv(data, filename, headers = HEADERS):
     with open(filename, 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(headers)
-        writer.writerows(headers)
+        writer.writerows(data)
 
 def get_data(data):
     for i in data:

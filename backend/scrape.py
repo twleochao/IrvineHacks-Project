@@ -15,16 +15,15 @@ from main import writecsv, removecommas
 # Link to UCI Campus Groups Events Website
 URL = 'https://campusgroups.uci.edu/events'
 
-# Headers of CSV File
-HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
-
-
-def scrape(verbose: bool=False) -> List[List]:
+def scrape(start_position: int, end_position: int, verbose: bool = False) -> List[List]:
     """
     Scrapes all of the submissions for UCI Campus Group Events and return the data as a list of lists.
     Each i-th inner list represents the data scraped from the i-th project.
 
     If verbose set to True, will output all scraped data to the console.
+
+    Will get events given a certain range based on start_position and end_position
+        Ex: scrape(1, 3) will get the first, second, and third events)
     """
 
     event_list_data: List[List] = []
@@ -52,8 +51,20 @@ def scrape(verbose: bool=False) -> List[List]:
 
     driver.get(URL)
 
-    # Looping through all events on the webpage
-    for event in driver.find_elements(By.XPATH, '//*[contains(@class, "list-group-item") and contains(@id, "event_")]'):
+    events = driver.find_elements(By.XPATH, '//*[contains(@class, "list-group-item") and contains(@id, "event_")]')
+
+    # Looping through events on the webpage with the given range
+    for event_index in range(start_position - 1, end_position + 1):  # Adjust the index to match array indexing
+        curdata = []
+        while event_index >= len(events):
+            # Scrolling down to load more events
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            # Wait for the page to load the new events
+            # time.sleep(2)
+            events = driver.find_elements(By.XPATH, '//*[contains(@class, "list-group-item") and contains(@id, "event_")]')
+
+        event = events[event_index]
+
         try:
             # Getting Name, image source, time, and location
             name = (event.find_element(By.XPATH, './/div/div/div[2]/div/div/h3/a')).text.strip()
@@ -62,12 +73,12 @@ def scrape(verbose: bool=False) -> List[List]:
             time = (event.find_element(By.XPATH, './/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div')).text.strip()
             location = (event.find_element(By.XPATH, './/div/div/div[2]/div/div/div[1]/div[2]')).text.strip()
 
-            
+
             # Clicking on the link of the associated event
             event_link = event.find_element(By.XPATH, './/div/div/div[2]/div/div/h3/a')
             link_href = event_link.get_attribute('href') # Getting the href of the address
             driver.get(link_href)
-            
+
             try:
                 # Get the address from the webpage if it exists
                 address = driver.find_element(By.XPATH, '//*[@id="event_main_card"]/div[3]/div/div[2]/div[2]/p[2]').text.strip()
@@ -78,13 +89,20 @@ def scrape(verbose: bool=False) -> List[List]:
             # Goes back to the original URL
             driver.back()
 
+            # Removing Commas
+            time = removecommas(time).replace('\n', ' ')
+            address = removecommas(address).replace('\n', ' ')
+            location = removecommas(location).replace('\n', ' ')
+
             # Appending all the data to the event_list_data
-            event_list_data.append(name)
-            event_list_data.append(img_src)
-            event_list_data.append(time)
-            event_list_data.append(location)
-            event_list_data.append(address)
-                
+            curdata.append(name)
+            curdata.append(img_src)
+            curdata.append(time)
+            curdata.append(location)
+            curdata.append(address)
+
+            event_list_data.append(curdata)
+
             if verbose:
                 print("Event Name: ", name)
                 print("Event Image Src: ", img_src)
@@ -98,10 +116,8 @@ def scrape(verbose: bool=False) -> List[List]:
 
     driver.quit()
 
-    writecsv(event_list_data, 'eventinfo.csv')
-
     return event_list_data
 
 if __name__ == '__main__':
-   event_data = scrape(verbose=True)
-   # writecsv(event_data, 'eventinfo.csv')
+   event_data = scrape(1, 10, verbose=True)
+   writecsv(event_data, 'eventinfo.csv')
