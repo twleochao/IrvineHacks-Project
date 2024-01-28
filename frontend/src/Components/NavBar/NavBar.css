@@ -1,0 +1,28 @@
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 110px;
+    color: yellow;
+}
+
+.navLogo{
+    font-size: 42px;
+    font-weight: 500;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+.nav-menu a {
+    text-decoration: none; /* Remove underline */
+    font-size: 42px;
+    color: yellow;
+}
+
+.nav-menu a:visited {
+    color: yellow;
+}

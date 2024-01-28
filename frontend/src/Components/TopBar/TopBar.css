@@ -1,0 +1,10 @@
+.TopBar {
+    
+    position: absolute;
+    background-color: #387eda;
+    width: 100%;
+    height: 90px;
+    top: 0;
+    text-align: center;
+    z-index: -1;
+  }
