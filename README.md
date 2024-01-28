@@ -1,5 +1,6 @@
 # IrvineHacks-Project
 
-Our program takes info of public in-person events from UCI campus groups and organizes it.
-Location of events will be displayed using Google maps API.
-User will be able to enter a username to save specific events they are interested in attending.
+Tired of not knowing where to go to meet people on UCI? Zot Events got you covered.
+
+Our program scrapes the UCI campus groups website and parses all the inperson events for you.
+Relevant information will be presented alongside an interactive map that will show you how you can get there! 

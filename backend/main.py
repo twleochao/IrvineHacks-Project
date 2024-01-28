@@ -1,7 +1,10 @@
 import csv
+import requests
 
 HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
 API_KEY = 'AIzaSyA3eqFuwarzFiN4CIY4hkKBMpyxWTYgyRM'
+
+coords = []
 
 def getcoords(address, key = API_KEY):
     base_url = "https://maps.googleapis.com/maps/api/geocode/json"
@@ -12,36 +15,41 @@ def getcoords(address, key = API_KEY):
 
     response = requests.get(base_url, params=params)
     data = response.json()
+    if address == 'Private Location (sign in to display)' or address == 'Online Event':
+        return None
 
     if response.status_code == 200 and data['status'] == 'OK':
         location = data['results'][0]['geometry']['location']
         latitude, longitude = location['lat'], location['lng']
         return latitude, longitude
     else:
-        print(f"Error: {data['status']}")
         return None
+
+def find_coords(data):
+    for i in data:
+        if i[0] == 'Event Name': continue
+
+        loc = i[3]
+        adr = i[4]
+
+        if adr == "":
+            adr = loc
+        curcoords = getcoords(adr)
+        coords.append(curcoords)
 
 def removecommas(string):
     return string.replace(',', '')
 
 def writecsv(data, filename, headers = HEADERS):
     with open(filename, 'w', newline='') as f:
-        writer = csv.writer(f)  
+        writer = csv.writer(f)
         writer.writerow(headers)
         writer.writerows(data)
-    
-def get_data(data):
-    for i in data:
-        eventname = i[0]
-        imagesrc = i[1]
-        eventime = i[2]
-        eventlocation = i[3]
-        eventaddress = i[4]
 
 def main():
     with open('eventinfo.csv', mode = 'r') as csvfile:
         data = csv.reader(csvfile)
-        #get_data(data)
+        find_coords(data)
 
 if __name__ == '__main__':
     main()

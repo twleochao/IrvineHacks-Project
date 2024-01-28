@@ -7,7 +7,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 from typing import List
 from urllib.parse import urlparse
-import csv
+
+import os
 import platform
 from main import writecsv, removecommas
 
@@ -55,6 +56,7 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
 
     # Looping through events on the webpage with the given range
     for event_index in range(start_position - 1, end_position + 1):  # Adjust the index to match array indexing
+        curdata = []
         while event_index >= len(events):
             # Scrolling down to load more events
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -72,12 +74,12 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
             time = (event.find_element(By.XPATH, './/div/div/div[2]/div/div/div[1]/div[1]/div[2]/div')).text.strip()
             location = (event.find_element(By.XPATH, './/div/div/div[2]/div/div/div[1]/div[2]')).text.strip()
 
-            
+
             # Clicking on the link of the associated event
             event_link = event.find_element(By.XPATH, './/div/div/div[2]/div/div/h3/a')
             link_href = event_link.get_attribute('href') # Getting the href of the address
             driver.get(link_href)
-            
+
             try:
                 # Get the address from the webpage if it exists
                 address = driver.find_element(By.XPATH, '//*[@id="event_main_card"]/div[3]/div/div[2]/div[2]/p[2]').text.strip()
@@ -94,12 +96,14 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
             location = removecommas(location).replace('\n', ' ')
 
             # Appending all the data to the event_list_data
-            event_list_data.append(name)
-            event_list_data.append(img_src)
-            event_list_data.append(time)
-            event_list_data.append(location)
-            event_list_data.append(address)
-                
+            curdata.append(name)
+            curdata.append(img_src)
+            curdata.append(time)
+            curdata.append(location)
+            curdata.append(address)
+
+            event_list_data.append(curdata)
+
             if verbose:
                 print("Event Name: ", name)
                 print("Event Image Src: ", img_src)
@@ -115,7 +119,14 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
 
     return event_list_data
 
+def specifypath():
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    filename = os.path.join(curdir, 'eventinfo.csv')
+
+    return filename
+
+
 if __name__ == '__main__':
-   event_data = scrape(45, 50, verbose=True)
-   print(event_data)
-   writecsv(event_data, 'eventinfo.csv')
+   event_data = scrape(1, 10, verbose=True)
+   filename = specifypath()
+   writecsv(event_data, filename)
