@@ -1,5 +1,6 @@
 import csv
 import requests
+import os
 
 HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
 API_KEY = 'AIzaSyA3eqFuwarzFiN4CIY4hkKBMpyxWTYgyRM'
