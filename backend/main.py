@@ -31,7 +31,7 @@ def getcoords(address, key = API_KEY):
 
 def find_coords(data):
     for i,obj in enumerate(data):
-        if i[0] == 'Event Name': continue
+        if obj[0] == 'Event Name': continue
 
         loc = obj[3]
         adr = obj[4]
