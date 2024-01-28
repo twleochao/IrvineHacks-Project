@@ -33,9 +33,9 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
 
     #Getting the chromedriver
     if (platform.system() == 'Windows'):
-        service = Service(executable_path='./chromedriver/chromedriver-win64/chromedriver.exe')
+        service = Service(executable_path='backend/chromedriver/chromedriver-win64/chromedriver.exe')
     elif (platform.system() == 'Darwin'):
-        service = Service(executable_path='./chromedriver/chromedriver-mac-x64/chromedriver')
+        service = Service(executable_path='backend/chromedriver/chromedriver-mac-x64/chromedriver')
     else:
         exit("Not compatible operating system")
 
@@ -122,6 +122,6 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
 
 
 if __name__ == '__main__':
-   event_data = scrape(1, 200, verbose=True)
+   event_data = scrape(1, 300, verbose=True)
    filename = specifypath()
    writecsv(event_data, filename)
