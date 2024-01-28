@@ -37,6 +37,12 @@ def find_coords(data):
         curcoords = getcoords(adr)
         coords.append(curcoords)
 
+def specifypath():
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    filename = os.path.join(cur_dir, 'eventinfo.csv')
+
+    return filename
+
 def removecommas(string):
     return string.replace(',', '')
 
