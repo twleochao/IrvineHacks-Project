@@ -1,4 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
+import eventData from "./fnl.json";
+// import React, {useState} from 'react';
+
+console.log(eventData)
+
+// const fs = require('fs');
+
+// // Specify the path to your JSON file
+// const filePath = 'IrvineHacks-Project/fnl.json';
+
+// // Read the JSON file
+// fs.readFile(filePath, 'utf-8', (err, data) => {
+//   if (err) {
+//     console.error('Error reading JSON file:', err);
+//     return;
+//   }
+
+//   // Parse the JSON data
+//   const jsonData = JSON.parse(data);
+//   jsonData.forEach(i => {
+//     console.log('Name:', i.name);
+//     console.log('Imgsrc:', i.imgsrc);
+//     console.log('Time:', i.time);
+//     console.log('Location:', i.loc);
+//     console.log('Address:', i.add);
+//     console.log('Coordinates:', i.cords);
+//   })
+
+// });
+
+
+
 // import {GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 // import './search.css';
 
@@ -48,8 +80,22 @@ import React from 'react';
 
 const Search = () => {
   // Example list of suggestions
-  const suggestions = ["Event 1", "Event 2", "Event 3", "Conference", "Concert"];
+  const suggestions = []
+  for(let i = 0; i < eventData.length; i++){
+    suggestions.push(eventData[i].name)
+  }
 
+  const [userInput, setUserInput] = useState('');
+
+  const handleInputChange = (event) => {
+    setUserInput(event.target.value);
+  }
+
+  const handleButtonClick = () => {
+    console.log('User input:', userInput);
+  }
+
+  
   return (
     <div className="search-container">
 
@@ -70,6 +116,7 @@ const Search = () => {
         <input
           type="text"
           placeholder="FIND AN EVENT"
+          value = {userInput}
           list="eventSuggestions"
         />
         <datalist id="eventSuggestions">
@@ -77,10 +124,11 @@ const Search = () => {
             <option key={index} value={item} />
           ))}
         </datalist>
-        <button>SEARCH</button>
+        <button onClick={handleButtonClick}>SEARCH</button>
         <div className="additional-info">
           <div className="info-item">
             <div>
+              
               <span>Time:</span> Your Time Goes Here
             </div>
             <div>
