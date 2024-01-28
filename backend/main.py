@@ -28,6 +28,7 @@ def getcoords(address, key = API_KEY):
     else:
         return None
 
+
 def find_coords(data):
     for i,obj in enumerate(data):
         if obj[0] == 'Event Name': continue
@@ -43,9 +44,11 @@ def find_coords(data):
         dct = {"name": obj[0], "img src": obj[1], "time": obj[2], "loc": obj[3], "add": obj[4], "cords": coords[i-1]}
         fnldata.append(dct)
 
+
 def writesorteddata():
     with open('fnl.json', 'w') as f:
         json.dump(fnldata, f, indent=2)
+
 
 def specifypath():
     cur_dir = os.path.dirname(os.path.realpath(__file__))
@@ -53,14 +56,17 @@ def specifypath():
 
     return filename
 
+
 def removecommas(string):
     return string.replace(',', '')
+
 
 def writecsv(data, filename, headers = HEADERS):
     with open(filename, 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(headers)
         writer.writerows(data)
+
 
 def main():
     readpath = specifypath()
