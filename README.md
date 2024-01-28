@@ -10,7 +10,6 @@ Relevant information will be presented alongside an interactive map that will sh
 
 - [Overview](#overview)
 - [Installation](#installation)
-- [Usage](#usage)
 - [License](#license)
 - [Credits](#credits)
 
@@ -33,8 +32,6 @@ pip install -r requirements.txt
 ### 2. Confirm Chromedriver is Compatible with Your Device
 
 Currently, Chromedriver is only installed in Windows and MacOS on the program. Make sure the executable path is correct in the scrape.py file.
-
-## Usage
 
 ## License
 
