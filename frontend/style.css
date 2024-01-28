@@ -1,0 +1,32 @@
+/**
+ * @license
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+/* #map {
+  height: 100%;
+} */
+
+#map {
+  position: fixed;
+  z-index: 2;
+  bottom: 0;
+  left: 0;
+  width: 50vw; /* Adjust the width as needed */
+  height: 50vh; /* Adjust the height as needed */
+}
+
+/* 
+ * Optional: Makes the sample page fill the window. 
+ */
+html,
+body { 
+  
+  height:100%;
+  padding: 0;
+}
+
