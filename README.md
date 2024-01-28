@@ -1,4 +1,5 @@
 # IrvineHacks-Project
+![alt text](https://github.com/twleochao/IrvineHacks-Project/blob/C:\Users\cchha\Downloads\zotevents image.png?raw=true)
 
 Tired of not knowing where to go to meet people on UCI? Zot Events got you covered.
 
