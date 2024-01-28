@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 from typing import List
 from urllib.parse import urlparse
 import csv
-# from main import writecsv, removecommas
+from main import writecsv, removecommas
 
 
 # Link to UCI Campus Groups Events Website
@@ -91,15 +91,6 @@ def scrape(verbose: bool=False) -> List[List]:
 
     return event_list_data
 
-def write_to_csv(data: List[List], filename: str, headers: List[str] = HEADERS):
-    with open(filename, 'w', newline='') as csvfile:
-        # Creating a csv writer object 
-        csvwriter = csv.writer(csvfile) 
-        # Writing the fields (columns) 
-        csvwriter.writerow(headers) 
-        # Writing the data (rows) 
-        csvwriter.writerows(data)
-
 if __name__ == '__main__':
    event_data = scrape(verbose=True)
-   write_to_csv(event_data, 'eventinfo.csv')
+   writecsv(event_data, 'eventinfo.csv')
