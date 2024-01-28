@@ -7,11 +7,15 @@ from selenium.common.exceptions import NoSuchElementException
 
 from typing import List
 from urllib.parse import urlparse
-from main import writecsv, removecommas
+import csv
+# from main import writecsv, removecommas
 
 
 # Link to UCI Campus Groups Events Website
 URL = 'https://campusgroups.uci.edu/events'
+
+# Headers of CSV File
+HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
 
 # Preparing Selenium
 service = Service(executable_path='backend/chromedriver-mac-x64/chromedriver') # Gets the chromedriver.exe
@@ -19,7 +23,7 @@ options = webdriver.ChromeOptions() # Sets up the options for Selenium
 options.add_argument("--headless=new") # Makes our options headless (so the browser won't open)
 driver = webdriver.Chrome(service=service, options=options)
 
-driver.implicitly_wait(5)
+# driver.implicitly_wait(5)
 
 driver.get(URL)
 
@@ -56,9 +60,17 @@ def scrape(verbose: bool=False) -> List[List]:
                 # If not, leave blank
                 address = ""
 
-            
+            # Goes back to the original URL
             driver.back()
+
+            # Appending all the data to the event_list_data
+            event_list_data.append(name)
+            event_list_data.append(img_src)
+            event_list_data.append(time)
+            event_list_data.append(location)
+            event_list_data.append(address)
         
+            # Printing out the information to the terminal
             if verbose:
                 print("Event Name: ", name)
                 print("Event Image Src: ", img_src)
@@ -72,10 +84,18 @@ def scrape(verbose: bool=False) -> List[List]:
 
     return event_list_data
 
+def write_to_csv(data: List[List], filename: str, headers: List[str] = HEADERS):
+    with open(filename, 'w', newline='') as csvfile:
+        # Creating a csv writer object 
+        csvwriter = csv.writer(csvfile) 
+        # Writing the fields (columns) 
+        csvwriter.writerow(headers) 
+        # Writing the data (rows) 
+        csvwriter.writerows(data)
 
 if __name__ == '__main__':
    event_data = scrape(verbose=True)
-   writecsv(event_data, 'eventinfo.csv')
+   write_to_csv(event_data, 'eventinfo.csv')
 
 
 driver.quit()
