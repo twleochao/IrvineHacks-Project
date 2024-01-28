@@ -122,6 +122,6 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
 
 
 if __name__ == '__main__':
-   event_data = scrape(1, 650, verbose=True)
+   event_data = scrape(1, 200, verbose=True)
    filename = specifypath()
    writecsv(event_data, filename)
