@@ -41,7 +41,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Credits
 
 ZotEvents was developed by a group of beginner programmers during IrvineHacks 2024:
-- [Emmanuel Bautista](https://github.com/ebautista4562) - Integrated Google Maps API for an immersive user experience, and contributed to frontend development.
-- [Ethan Wong](https://github.com/txchnothunder) - Implemented dynamic web scraping using Selenium for real-time data updates, and handled backend development.
-- [Leo Chao](https://github.com/twleochao) - Managed CSV, JSON files, and geocoding for efficient handling of event coordinates, and contributed to backend processes.
-- [Ryan Pham](https://github.com/ryanpham17) - Designed the UI/UX for an appealing frontend, shaping the visual aesthetics of ZotEvents.
+- [Emmanuel Bautista](https://github.com/ebautista4562) - Managed displaying user and event's location with Google Maps API for an immersive user experience. Frontend
+- [Ethan Wong](https://github.com/txchnothunder) - Implemented dynamic web scraping for gathering event information using Selenium with real-time data updates. Backend
+- [Leo Chao](https://github.com/twleochao) - Handled calclating event coordinates using scraped data and Google Geocding API, organized usage of JSON/CSV files. Backend
+- [Ryan Pham](https://github.com/ryanpham17) - Designed the interactive UI/UX for an appealing using react, shaping the visual aesthetics of ZotEvents. Frontend
