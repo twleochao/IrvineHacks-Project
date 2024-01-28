@@ -39,6 +39,7 @@ def find_coords(data):
         if adr == "":
             adr = loc
         curcoords = getcoords(adr)
+        print(curcoords)
         coords.append(curcoords)
 
         dct = {"name": obj[0], "img src": obj[1], "time": obj[2], "loc": obj[3], "add": obj[4], "cords": coords[i-1]}
