@@ -17,16 +17,6 @@ URL = 'https://campusgroups.uci.edu/events'
 # Headers of CSV File
 HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
 
-# Preparing Selenium
-service = Service(executable_path='backend/chromedriver-mac-x64/chromedriver') # Gets the chromedriver.exe
-options = webdriver.ChromeOptions() # Sets up the options for Selenium
-options.add_argument("--headless=new") # Makes our options headless (so the browser won't open)
-driver = webdriver.Chrome(service=service, options=options)
-
-# driver.implicitly_wait(5)
-
-driver.get(URL)
-
 
 def scrape(verbose: bool=False) -> List[List]:
     """
@@ -35,7 +25,23 @@ def scrape(verbose: bool=False) -> List[List]:
 
     If verbose set to True, will output all scraped data to the console.
     """
+
     event_list_data: List[List] = []
+
+    # Preparing Selenium
+    service = Service(executable_path='backend/chromedriver-mac-x64/chromedriver') # Gets the chromedriver.exe
+    options = webdriver.ChromeOptions() # Sets up the options for Selenium
+    options.add_argument("--headless=new") # Makes our options headless (so the browser won't open)
+    options.add_experimental_option(
+        "prefs", {
+            # block image loading
+            "profile.managed_default_content_settings.images": 2,
+        }
+    )
+
+    driver = webdriver.Chrome(service=service, options=options)
+
+    driver.get(URL)
 
     # Looping through all events on the webpage
     for event in driver.find_elements(By.XPATH, '//*[contains(@class, "list-group-item") and contains(@id, "event_")]'):
@@ -69,18 +75,19 @@ def scrape(verbose: bool=False) -> List[List]:
             event_list_data.append(time)
             event_list_data.append(location)
             event_list_data.append(address)
-        
-            # Printing out the information to the terminal
+                
             if verbose:
                 print("Event Name: ", name)
                 print("Event Image Src: ", img_src)
                 print("Event Time: ", time)
                 print("Event Location: ", location)
-                print("Address: ", address) # Needs further testing on websites which have the address, tested on a website without address
+                print("Address: ", address)
                 print("-" * 50)
-        
+
         except NoSuchElementException as e:
             print(f"Error: {e}")
+
+    driver.quit()
 
     return event_list_data
 
@@ -96,6 +103,3 @@ def write_to_csv(data: List[List], filename: str, headers: List[str] = HEADERS):
 if __name__ == '__main__':
    event_data = scrape(verbose=True)
    write_to_csv(event_data, 'eventinfo.csv')
-
-
-driver.quit()
