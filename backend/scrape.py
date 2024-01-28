@@ -116,6 +116,6 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
     return event_list_data
 
 if __name__ == '__main__':
-   event_data = scrape(1, 10, verbose=True)
+   event_data = scrape(45, 50, verbose=True)
    print(event_data)
    writecsv(event_data, 'eventinfo.csv')
