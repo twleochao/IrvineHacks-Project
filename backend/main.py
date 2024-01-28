@@ -10,7 +10,6 @@ coords = []
 fnldata = []
 
 def getcoords(address, key = API_KEY):
-    print("get coords", address)
     base_url = "https://maps.googleapis.com/maps/api/geocode/json"
     params = {
         'address': address,
@@ -67,7 +66,6 @@ def main():
     with open('eventinfo.csv', mode = 'r') as csvfile:
         data = csv.reader(csvfile)
         find_coords(data)
-    print(coords)
     writesorteddata()
 
 if __name__ == '__main__':
