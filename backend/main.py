@@ -1,4 +1,5 @@
 import csv
+import requests
 
 HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
 API_KEY = 'AIzaSyA3eqFuwarzFiN4CIY4hkKBMpyxWTYgyRM'
@@ -26,10 +27,10 @@ def removecommas(string):
 
 def writecsv(data, filename, headers = HEADERS):
     with open(filename, 'w', newline='') as f:
-        writer = csv.writer(f)  
+        writer = csv.writer(f)
         writer.writerow(headers)
         writer.writerows(headers)
-    
+
 def get_data(data):
     for i in data:
         eventname = i[0]
