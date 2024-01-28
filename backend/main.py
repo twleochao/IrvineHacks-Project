@@ -27,7 +27,7 @@ def getcoords(address, key = API_KEY):
 
 def find_coords(data):
     for i in data:
-        i[0] == 'Event Name': continue
+        if i[0] == 'Event Name': continue
 
         loc = i[3]
         adr = i[4]
@@ -36,6 +36,12 @@ def find_coords(data):
             adr = loc
         curcoords = getcoords(adr)
         coords.append(curcoords)
+
+def specifypath():
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+    filename = os.path.join(cur_dir, 'eventinfo.csv')
+
+    return filename
 
 def removecommas(string):
     return string.replace(',', '')

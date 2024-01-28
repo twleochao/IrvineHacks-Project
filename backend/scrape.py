@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 
 import os
 import platform
-from main import writecsv, removecommas
+from main import writecsv, removecommas, specifypath
 
 
 # Link to UCI Campus Groups Events Website
@@ -118,12 +118,6 @@ def scrape(start_position: int, end_position: int, verbose: bool = False) -> Lis
     driver.quit()
 
     return event_list_data
-
-def specifypath():
-    cur_dir = os.path.dirname(os.path.realpath(__file__))
-    filename = os.path.join(curdir, 'eventinfo.csv')
-
-    return filename
 
 
 if __name__ == '__main__':
