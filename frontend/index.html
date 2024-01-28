@@ -1,35 +1,38 @@
 <!doctype html>
-<!--
- @license
- Copyright 2019 Google LLC. All Rights Reserved.
- SPDX-License-Identifier: Apache-2.0
--->
-<html>
+<html lang="en">
   <head>
-    <title>Zot Events</title>
-    <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
-
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script type="module" src="./index.js"></script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+    <title>ZOT EVENTS</title>
+    
+    <script src="./map-script.js"></script>
   </head>
   <body>
+    <!-- <div style="display: grid; grid-template-columns: 1fr 1fr;"> -->
+    <div id="root"></div>
     <div id="map"></div>
+  </div>
 
-    <!-- 
+       <!-- 
       The `defer` attribute causes the callback to execute after the full HTML
       document has been parsed. For non-blocking uses, avoiding race conditions,
       and consistent behavior across browsers, consider loading using Promises.
       See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
       for more information.
       -->
-    <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3eqFuwarzFiN4CIY4hkKBMpyxWTYgyRM&callback=initMap&v=weekly"
-    defer
-    ></script>
-    <!-- <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+      <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3eqFuwarzFiN4CIY4hkKBMpyxWTYgyRM&callback=initMap&v=weekly"
       defer
-    ></script> -->
+      ></script>
+      <!-- <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+        defer
+      ></script> -->
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
 
