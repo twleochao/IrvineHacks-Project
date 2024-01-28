@@ -1,33 +1,25 @@
 import csv
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
 
 HEADERS = ['Event Name', 'Event Image Src', 'Event Time', 'Event Location', 'Event Address']
+API_KEY = 'AIzaSyA3eqFuwarzFiN4CIY4hkKBMpyxWTYgyRM'
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
+def getcoords(address, key = API_KEY):
+    base_url = "https://maps.googleapis.com/maps/api/geocode/json"
+    params = {
+        'address': address,
+        'key': key,
+    }
 
-class User(db.model):
-    id  = db.Column(db.String(30), primary_key=True)
+    response = requests.get(base_url, params=params)
+    data = response.json()
 
-    def __repr__(self):
-        return f"User('{self.id}')"
-
-@app.route('/profile/<string:user_id>')
-def profile(user_id):
-    user = User.query.get(user_id)
-    return render_template('profile.html', user=user)
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        user_id = request.form['user_id']
-        user = User(id=user_id)
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for('profile', user_id=user_id))
-    return render_template('register.html')
+    if response.status_code == 200 and data['status'] == 'OK':
+        location = data['results'][0]['geometry']['location']
+        latitude, longitude = location['lat'], location['lng']
+        return latitude, longitude
+    else:
+        print(f"Error: {data['status']}")
+        return None
 
 def removecommas(string):
     return string.replace(',', '')
@@ -47,11 +39,9 @@ def get_data(data):
         eventaddress = i[4]
 
 def main():
-    with open('info.csv', mode = 'r') as csvfile:
+    with open('eventinfo.csv', mode = 'r') as csvfile:
         data = csv.reader(csvfile)
-        get_data(data)
+        #get_data(data)
 
 if __name__ == '__main__':
     main()
-    db.create_all()
-    app.run(debug=True)
