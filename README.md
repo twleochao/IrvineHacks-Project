@@ -1,5 +1,5 @@
 # IrvineHacks-Project
-![Alt text](https://cdn.discordapp.com/attachments/1200286789416525844/1201054025106337852/image.png?ex=65c86bba&is=65b5f6ba&hm=ad81f2af027ea1281b6ede86593da7e4571771114a41646f1a7f5c46cd732579&)
+![Alt text](https://cdn.discordapp.com/attachments/1200286789416525844/1201055434115657748/zotevents_image.png?ex=65c86d0a&is=65b5f80a&hm=58fd65280ca92986c7c5c9d47cb15cbc8c142956444128c66b02b3825aa0f28f&)
 
 Tired of not knowing where to go to meet people on UCI? Zot Events got you covered.
 
