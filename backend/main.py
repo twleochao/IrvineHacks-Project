@@ -30,7 +30,7 @@ def getcoords(address, key = API_KEY):
 
 def find_coords(data):
     for i,obj in enumerate(data):
-        if i[0] == 'Event Name': continue
+        if obj[0] == 'Event Name': continue
 
         loc = obj[3]
         adr = obj[4]
@@ -63,7 +63,8 @@ def writecsv(data, filename, headers = HEADERS):
         writer.writerows(data)
 
 def main():
-    with open('eventinfo.csv', mode = 'r') as csvfile:
+    readpath = specifypath()
+    with open(readpath, mode = 'r') as csvfile:
         data = csv.reader(csvfile)
         find_coords(data)
     writesorteddata()
